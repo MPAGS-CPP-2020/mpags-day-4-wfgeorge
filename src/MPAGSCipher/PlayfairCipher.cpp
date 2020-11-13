@@ -37,11 +37,26 @@ void PlayfairCipher::setKey( const std::string& key){
     // ** Change J -> I **
     std::transform( key_.begin(), key_.end(), key_.begin(), [] (char x) { return (x == 'J') ? 'I' : x; } );
 
-    //Remove duplicated letters
+    // ** Remove duplicated letters **
+    //String to store encountered letters
+    std::string encountered_chars{ "" };
+    //Lambda fcn to check if a given letter is already in encountered_chars
+    //Returns true if char has been seen before, else add to string and returns false
+    auto dup_rm = [&encountered_chars] (char current_char) {
+        std::size_t found = encountered_chars.find( current_char );
+        if (found!=std::string::npos){
+            return true;
+        } else {
+            encountered_chars += current_char;
+            return false;
+        }
+    };
+    // Now check for and remove duplicates using lambda fcn
+    key_.erase( std::remove_if( key_.begin(), key_.end(), dup_rm), key_.end() );
+    
+    // ** Store coords of each letter **
 
-    //Store coords of each letter
-
-    //Store the playfair cipher key map
+    // ** Store the playfair cipher key map **
 
     std::cout << "Key after:" << std::endl;
     std::copy( key_.begin(), key_.end(), cout_iter );
