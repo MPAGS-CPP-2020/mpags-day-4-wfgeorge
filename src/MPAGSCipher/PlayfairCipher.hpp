@@ -2,8 +2,11 @@
 #define MPAGSCIPHER_PLAYFAIRCIPHER_HPP
 
 // Standard library includes
+#include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 
 // Our project headers
 #include "CipherMode.hpp"
