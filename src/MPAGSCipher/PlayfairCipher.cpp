@@ -9,28 +9,33 @@ PlayfairCipher::PlayfairCipher( const std::string& key ){
 
 void PlayfairCipher::setKey( const std::string& key){
 
-    //Store the original key
+    // ** Store the original key **
     key_ = key;
 
-    //Append the alphabet
+    // ** Append the alphabet **
     for ( auto& elem : alphabet_) {
         key_ += elem;
     }
 
     //Print key before and after transform to check alg
     std::cout << "Key before:" << std::endl;
-    // create an iterator for std::cout
+    //Create an iterator for std::cout
     std::ostream_iterator<char> cout_iter{ std::cout, " " };
-    // output values
+    //Output values
     std::copy( key_.begin(), key_.end(), cout_iter );
     std::cout << std::endl;
 
-    //Make sure the key is upper case
+    // ** Make sure the key is upper case **
     std::transform(key_.begin(),key_.end(),key_.begin(),::toupper);
 
-    //Remove non-alpha characters
+    // ** Remove non-alpha characters **
+    //Reorder string and return iter to start of chars to erase
+    auto rm_iter = std::remove_if( key_.begin(), key_.end(), [] (char x) { return !std::isalpha(x); } );
+    //Erase unwanted chars
+    key_.erase( rm_iter, key_.end() );
 
-    //Change J -> I
+    // ** Change J -> I **
+    std::transform( key_.begin(), key_.end(), key_.begin(), [] (char x) { return (x == 'J') ? 'I' : x; } );
 
     //Remove duplicated letters
 
